@@ -1,0 +1,79 @@
+type Food @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  restaurantId: String
+  name: String
+  photo: String
+  description: String
+  calories: String
+  price: String
+  duration: String
+  categorie: String
+  ingredients: AWSJSON
+  menuNr:Int
+}
+
+type Restaurant @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  restaurantID: String
+  name: String!
+  phone: Int
+  rating: String
+  priceRating: String
+  city: String
+  zipCode: String
+  address: String
+  categories: String
+  duration: String
+  deliveryCost: Int
+}
+
+type Order @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  customerID:String 
+  customerName: String
+  foodItems: AWSJSON
+  email: String
+  total: Int!
+  status: String
+  address: String
+  updatedAt: AWSDateTime
+  derliveryTime: String
+  addedTime: Int
+  restaurantNote: String
+  restaurantID: String
+  createdAt: AWSDateTime
+}
+
+type OrderItem @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  orderId: String!
+  foodId: String!
+}
+
+type Customer @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  phone: Int
+  customerID: String
+  address: String
+  city: String
+  zipCode: String
+  createdAt: AWSDateTime
+}
+
+type Mutation {
+  createPayment(input: PaymentInput): PaymentResult @function(name: "makePayment-${env}")
+}
+
+input PaymentInput {
+  amount: Float
+  total: Int
+  name: String
+  email: String
+}
+
+type PaymentResult {
+  statusCode: Int
+  body: String
+}
+ 
