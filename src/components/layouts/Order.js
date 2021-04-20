@@ -22,6 +22,7 @@ class OrderView extends Component {
       derliveryTime: '',
       isDateTimePickerVisible: false,
       showNote:false,
+      onChangeText:'',
       note:'',
     }
   }
@@ -61,6 +62,7 @@ class OrderView extends Component {
               foodItems: Basket,
               total: total,
               derliveryTime: derliveryTime,
+              restaurantNote: this.state.onChangeText,
               restaurantID: basketItems[0].restaurantId
             })
           );
@@ -128,8 +130,7 @@ class OrderView extends Component {
             placeholderTextColor="grey"
             numberOfLines={10}
             multiline={true}
-            onChangeText={onChangeText}
-            value={text}
+            onChangeText={text => this.setState({ onChangeText: text})}
           />
         </View>
       )

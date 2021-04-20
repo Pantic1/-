@@ -6,62 +6,24 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ScrollView,
   FlatList
 } from "react-native";
-import {TextInput} from "react-native-gesture-handler";
+import { TextInput } from "react-native-gesture-handler";
 import config from '../../aws-exports';
-import {Categories} from "../categories";
-import {icons, SIZES, COLORS, FONTS} from '../contants'
+import { Categories } from "../categories";
+import { icons, SIZES, COLORS, FONTS } from '../contants'
 
-import Amplify, {Predicates} from '@aws-amplify/core';
+import Amplify, { Predicates } from '@aws-amplify/core';
 
 Amplify.configure(config);
 
-import {DataStore} from '@aws-amplify/datastore'
-import {Order} from '../../models'
-import {connect} from "react-redux";
-import {Button} from "react-native-elements";
+import { DataStore } from '@aws-amplify/datastore'
+import { Order } from '../../models'
+import { connect } from "react-redux";
+import { Button } from "react-native-elements";
+import styles from '../layouts/styles/OrdersList.component.style';
 
-let subscription;
-
-const styles = StyleSheet.create({
-  Header: {
-    width: '100%',
-    height: '10%',
-    marginTop: '0%',
-    backgroundColor: 'white',
-    shadowColor: COLORS.darkgray,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 1.41,
-    elevation: 1,
-  },
-  viewRestaurants: {
-    width: '82%',
-    height: 220,
-    backgroundColor: 'white',
-    marginTop: '9%',
-    marginLeft: '9%',
-    borderRadius: 20,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.lightGray4
-  },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 1,
-  },
-});
 
 class OrdersList extends React.Component {
   constructor(props) {
@@ -72,90 +34,78 @@ class OrdersList extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.onQuery();
-  }
-
-  componentWillUnmount() {
-  }
-
   onSearch() {
     this.setState({
       viewSearch: true
     });
   }
 
-  onQuery = async () => {
-    /*const OrderData = await DataStore.query(Order);
-    this.setState({OrderData, origData: OrderData});
-    console.log("QUERY_COMMENTS_RESULT", OrderData);*/
-  };
 
 
   render() {
-    const {onSearch} = this;
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     const OrderData = [this.props.route.params.order]
 
     function renderHeader() {
       return (
-        <View style={{flexDirection: 'row', height: 50, position: 'absolute', zIndex: 99, paddingTop: '5%'}}>
-          <TouchableOpacity
-            style={{
-              width: 50,
-              paddingLeft: SIZES.padding * 2,
-              justifyContent: 'center'
-            }}
-            onPress={() => navigate("Home")}
-          >
-            <Image
-              source={icons.back}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25
-              }}
-            />
-
-          </TouchableOpacity>
+        <View style={styles.Contanier}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Cart')}>
+              <Image source={icons.back} style={styles.hambugerMenu} />
+            </TouchableOpacity>
+            <Text style={styles.headline}>Min Ordre</Text>
+          </View>
         </View>
       )
     }
 
     function renderOrdersList() {
-      const renderItem = ({item}) => (
+      const renderItem = ({ item }) => (
         <TouchableOpacity
-          style={{marginBottom: SIZES.padding * 2}}
-          onPress={() => navigate("OrderDelivery", {item})}
+          style={{ marginBottom: SIZES.padding * 2 }}
+          onPress={() => navigate("OrderDelivery", { item })}
         >
           {/* Image */}
-          <View style={{marginBottom: SIZES.padding, width: '80%', alignSelf: 'center'}}>
+          <View style={{ marginBottom: SIZES.padding, width: '80%', alignSelf: 'center' }}>
 
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <Text style={{...FONTS.h4}}>Delivery time </Text>
-              <Text style={{...FONTS.h4}}>{item.duration} min</Text>
+              <Text style={{ ...FONTS.h4 }}>Leverings tid</Text>
+              <Text style={{ ...FONTS.h4 }}>Kl.{item.derliveryTime}</Text>
             </View>
 
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: 20}}
+              style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}
             >
-              <Text style={{...FONTS.h4}}>Total </Text>
-              <Text style={{...FONTS.h4}}>{item.total} </Text>
+              <Text style={{ ...FONTS.h4 }}>Total </Text>
+              <Text style={{ ...FONTS.h4 }}>{item.total} Kr</Text>
             </View>
+
+            <View style={styles.note}>
+              <Text style={styles.kunde}> Din bestilling:</Text>
+              <SafeAreaView>
+                <ScrollView style={styles.noteScroll}>
+                  {Object.entries(JSON.parse(item.foodItems)).map(([key, value]) => {
+                    return (
+                      <Text key={value.foodId} style={styles.items}>{value.qty} X <Text>#{value.menuNr}</Text><Text>  {value.name}</Text></Text>
+                    )
+                  })}
+                </ScrollView>
+              </SafeAreaView>
+            </View>
+
             <Button
-              onPress={() => navigate("OrderDelivery", {item})}
+              onPress={() => navigate("OrderDelivery", { item })}
               title={'Track Order'}
-              containerStyle={{marginTop: 40}}/>
+              containerStyle={{ marginTop: 40 }} />
           </View>
-
         </TouchableOpacity>
       )
 
       return (
         <View>
-          <View style={{borderRadius: 20, marginBottom: '3%', width: '90%', marginLeft: '5%'}}/>
+          <View style={{ borderRadius: 20, marginBottom: '3%', width: '90%', marginLeft: '5%' }} />
           <FlatList
             data={OrderData}
             keyExtractor={item => `${item.id}`}
@@ -182,6 +132,6 @@ class OrdersList extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return {app: state.app}
+  return { app: state.app }
 }
 export default connect(mapStateToProps, null)(OrdersList);
