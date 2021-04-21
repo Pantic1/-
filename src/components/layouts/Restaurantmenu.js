@@ -77,15 +77,15 @@ class RestaurantMenu extends React.Component {
                     <View style={{ marginTop: '50%' }} >
                         <Text style={styles.headlineCate} >Vælge kategorie</Text>
                         <ScrollView>
-                            {kategori.map((foods) => {
+                            {kategori.map((foods, index) => {
                                 return (
-                                    <TouchableOpacity key={foods.id} style={styles.categoriesBtn}
+                                    <TouchableOpacity key={index} style={styles.categoriesBtn}
                                         onPress={() => navigate('UnderMenu', {
                                             Menu: foods.categorie,
                                             restaurant: Restaurantsdata
                                         })}
                                     >
-                                        <Text key={foods.id} style={{ textAlign: 'center' }}>{foods.categorie}</Text>
+                                        <Text  style={{ textAlign: 'center' }}>{foods.categorie}</Text>
                                     </TouchableOpacity>
                                 )
                             })

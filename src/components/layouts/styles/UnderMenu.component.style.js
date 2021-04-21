@@ -3,10 +3,28 @@ import { COLORS,FONTS } from '../../contants';
 
 
 export default StyleSheet.create({
-    Contanier:{
+    ContanierHeader: {
+        width: '100%',
+        marginTop:'10%'
+     },
+     Contanier:{
         width: '100%',
         height:'100%',
     },
+     headline: {
+        fontSize: 30,
+        marginBottom: '5%',
+        marginLeft: '2%'
+     },
+     header: {
+        flexDirection: 'row',
+     },
+     hambugerMenu: {
+        width: 23,
+        height: 23,
+        marginTop: '9%',
+        marginLeft: '20%'
+     },
     main: {
         flexDirection: "row",
         justifyContent: 'space-evenly',
@@ -203,5 +221,8 @@ export default StyleSheet.create({
     },
     modalDescription:{
 
+    },
+    resName:{
+        fontSize:30,
     }
 });

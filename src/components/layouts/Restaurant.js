@@ -13,6 +13,7 @@ import config from '../../aws-exports';
 import { Categories } from "../categories";
 import { icons, SIZES, COLORS, FONTS } from '../contants'
 import styles from './styles/Restaurant.component.style';
+import TabsStyles from '../layouts/styles/Tabs.component.style';
 
 import Amplify, { Predicates } from '@aws-amplify/core';
 Amplify.configure(config);
@@ -58,13 +59,13 @@ class Restaurants extends React.Component {
     console.log("QUERY_COMMENTS_RESULT", Restaurantsdata);
   };
 
-  onSelectCategory=(category)=> {
+  onSelectCategory = (category) => {
     const { origData } = this.state
 
     //filter restaurant
-    let restaurantList = origData.filter(a => a.categories.includes(category.id))
+   let restaurantList = origData.filter(a => a.categories.includes(category.id))
 
-    console.log(' Restaurantsdata ', restaurantList)
+    console.log(' Restaurantsdata ', origData)
 
     this.setState({
       selectedCategory: category,
@@ -86,10 +87,6 @@ class Restaurants extends React.Component {
       return ""
     }
 
-
-    function onChangeText(postCode) {
-      console.log(postCode);
-    }
 
     function renderHeader() {
       return (
@@ -290,7 +287,18 @@ class Restaurants extends React.Component {
         </View>
       )
     }
-
+    function MyTabs() {
+      return (
+        <View style={TabsStyles.main}>
+          <TouchableOpacity onPress={() => navigate('Restaurant')}>
+            <Image style={TabsStyles.homeBtn} source={icons.home} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('Orderhistorik')}>
+            <Image style={styles.personTabs} source={icons.shoppingbag} />
+          </TouchableOpacity>
+        </View>
+      );
+    }
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.Header}>
@@ -298,7 +306,9 @@ class Restaurants extends React.Component {
           {renderMainCategories()}
         </View>
         {renderRestaurantList()}
+        {MyTabs()}
       </SafeAreaView>
+      
     )
   }
 }

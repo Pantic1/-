@@ -13,6 +13,7 @@ export const hamburger = require("../../assets/icons/hamburger.png");
 export const hotdog = require("../../assets/icons/hotdog.png");
 export const like = require("../../assets/icons/like.png");
 export const list = require("../../assets/icons/list.png");
+export const shoppingbag = require("../../assets/icons/shopping-bag.png");
 export const location = require("../../assets/icons/location.png");
 export const master_card = require("../../assets/icons/mastercard.png");
 export const nearby = require("../../assets/icons/nearby.png");
@@ -33,6 +34,7 @@ export const home = require("../../assets/icons/home-solid.png");
 export const person = require("../../assets/icons/user-alt-solid.png");
 
 export default {
+    shoppingbag,
     person,
     home,
     back,

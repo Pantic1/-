@@ -50,7 +50,7 @@ class OrdersList extends React.Component {
       return (
         <View style={styles.Contanier}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Cart')}>
+            <TouchableOpacity onPress={() => navigate('Restaurant')}>
               <Image source={icons.back} style={styles.hambugerMenu} />
             </TouchableOpacity>
             <Text style={styles.headline}>Min Ordre</Text>

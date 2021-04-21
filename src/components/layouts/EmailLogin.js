@@ -10,7 +10,7 @@ function LoginScreen(props) {
   const dispatch = useDispatch();
   const {authenticated} = useSelector(state => state.app)
   if (authenticated) {
-    //props.navigation.replace('Home')
+    props.navigation.replace('Home')
   }
   const checkAuth = async ()=>{
     const user = await Auth.currentUserInfo();

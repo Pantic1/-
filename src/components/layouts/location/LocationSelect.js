@@ -55,7 +55,7 @@ export default function App(props) {
       </View>
       <View style={{width: '100%', height: hp('89%'), marginTop: hp('0%')}}>
         <LocationView
-          apiKey={"AIzaSyDb-hSU3wYvdzuYsaeu4zpN1_etAwTpPnM"}
+          apiKey={"AIzaSyAKDROA41TDDsuhJLUGUBKJ3zFLaufkf2w"}
           initialLocation={{
             latitude: 37.78825,
             longitude: -122.4324,

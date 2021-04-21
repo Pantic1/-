@@ -9,15 +9,14 @@ type Food @model @auth(rules: [{allow: public}]) {
   duration: String
   categorie: String
   ingredients: AWSJSON
-  menuNr:Int
+  menuNr: Int
 }
 
 type Restaurant @model @auth(rules: [{allow: public}]) {
   id: ID!
   restaurantID: String
-  name: String!
   phone: Int
-  rating: String
+  name: String!
   priceRating: String
   city: String
   zipCode: String
@@ -25,11 +24,12 @@ type Restaurant @model @auth(rules: [{allow: public}]) {
   categories: String
   duration: String
   deliveryCost: Int
+  rating: String
 }
 
 type Order @model @auth(rules: [{allow: public}]) {
   id: ID!
-  customerID:String 
+  customerID: String
   customerName: String
   foodItems: AWSJSON
   email: String
@@ -41,6 +41,7 @@ type Order @model @auth(rules: [{allow: public}]) {
   addedTime: Int
   restaurantNote: String
   restaurantID: String
+  restaurantName: String
   createdAt: AWSDateTime
 }
 

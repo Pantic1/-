@@ -17,6 +17,11 @@ export default StyleSheet.create({
         shadowRadius: 1.41,
         elevation: 1,
     },
+    personTabs: {
+        width: 27,
+        height: 27,
+        marginLeft: '20%'
+    },
     viewRestaurants: {
         width: '82%',
         height: 220,

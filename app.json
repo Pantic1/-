@@ -22,9 +22,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.foodbyhome",
-      "infoPlist": {
-
-      }
+      "infoPlist": {}
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +32,11 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
-    }
+    },
+    "sdkVersion": "41.0.0",
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }

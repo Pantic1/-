@@ -160,7 +160,7 @@ CheckoutPage.propTypes = {
 
 CheckoutPage.defaultProps = {
   prepopulatedEmail: '',
-  currency: 'USD',
+  currency: 'DKK',
 };
 
 export default CheckoutPage;

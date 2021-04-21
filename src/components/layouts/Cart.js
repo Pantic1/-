@@ -111,6 +111,7 @@ class Undermenu extends Component {
   }
 
   renderFooter = () => {
+    const { restaurant } = this.props.route.params;
     const {navigate} = this.props.navigation;
     const {BasketItems} = this.state;
     let total = 0.00;
@@ -121,7 +122,7 @@ class Undermenu extends Component {
       <View style={styles.footer}>
         <Text style={styles.totalText}>Total pris</Text>
         <Text style={styles.totalPrice}>{`${total}.00 kr`}</Text>
-        <TouchableOpacity style={styles.orderBtn} onPress={() => navigate('Order')}>
+        <TouchableOpacity style={styles.orderBtn} onPress={() => navigate('Order',{ restaurant: restaurant })}>
           <Text style={styles.orderBtnText}>Order nu</Text>
         </TouchableOpacity>
       </View>

@@ -27,9 +27,8 @@ export declare class Food {
 export declare class Restaurant {
   readonly id: string;
   readonly restaurantID?: string;
-  readonly name: string;
   readonly phone?: number;
-  readonly rating?: string;
+  readonly name: string;
   readonly priceRating?: string;
   readonly city?: string;
   readonly zipCode?: string;
@@ -37,6 +36,7 @@ export declare class Restaurant {
   readonly categories?: string;
   readonly duration?: string;
   readonly deliveryCost?: number;
+  readonly rating?: string;
   constructor(init: ModelInit<Restaurant>);
   static copyOf(source: Restaurant, mutator: (draft: MutableModel<Restaurant>) => MutableModel<Restaurant> | void): Restaurant;
 }
@@ -55,6 +55,7 @@ export declare class Order {
   readonly addedTime?: number;
   readonly restaurantNote?: string;
   readonly restaurantID?: string;
+  readonly restaurantName?: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Order>);
   static copyOf(source: Order, mutator: (draft: MutableModel<Order>) => MutableModel<Order> | void): Order;

@@ -123,13 +123,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "phone": {
                     "name": "phone",
                     "isArray": false,
@@ -137,11 +130,11 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "rating": {
-                    "name": "rating",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "priceRating": {
@@ -190,6 +183,13 @@ export const schema = {
                     "name": "deliveryCost",
                     "isArray": false,
                     "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "rating": {
+                    "name": "rating",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 }
@@ -308,6 +308,13 @@ export const schema = {
                 },
                 "restaurantID": {
                     "name": "restaurantID",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "restaurantName": {
+                    "name": "restaurantName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -504,5 +511,5 @@ export const schema = {
             }
         }
     },
-    "version": "9601b2905d6a020ffed110433954c8f4"
+    "version": "aa4601a57e4e4ee07e9f2883c556e2cd"
 };

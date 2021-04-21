@@ -35,6 +35,7 @@ class Undermenu extends Component {
       foodSelected: '',
       count: 0,
       viewSearch: false,
+      restaurantData:'',
       BasketPrice: 0,
       BasketItems: [],
       ingredientsSelected: {}
@@ -42,7 +43,8 @@ class Undermenu extends Component {
   }
 
   componentDidMount() {
-    const { Menu } = this.props.route.params;
+    const { Menu,restaurant } = this.props.route.params;
+    this.setState({ restaurantData:restaurant });
     this.onQuery(Menu);
     subscription = DataStore.observe(Food).subscribe((msg) => {
       console.log("SUBSCRIPTION_UPDATE", msg);
@@ -130,14 +132,14 @@ class Undermenu extends Component {
 
 
   render() {
-    const { FoodData, modalVisible, foodSelected, BasketPrice, count } = this.state;
+    const { FoodData, modalVisible, foodSelected, BasketPrice, count,restaurantData } = this.state;
     const { setModalVisible, plusCounter, minusCounter, addToBasket } = this;
     const { navigate } = this.props.navigation;
 
     function renderMenu() {
       if (FoodData != '') {
         return (
-          <View style={{ marginTop: '35%' }}>
+          <View style={{ marginTop: '5%' }}>
             {FoodData.map((foods) =>
               <TouchableOpacity key={foods.id} style={styles.menuKort}
                 onPress={() => setModalVisible(true, foods)}>
@@ -156,14 +158,14 @@ class Undermenu extends Component {
           <TouchableOpacity onPress={() => navigate('Restaurant')}>
             <Image style={TabsStyles.homeBtn} source={icons.home} />
           </TouchableOpacity>
-          {count > 0 && <TouchableOpacity onPress={() => navigate('Cart')} style={styles.basketTabs}>
+          {count > 0 && <TouchableOpacity onPress={() => navigate('Cart',{ restaurant: restaurantData })} style={styles.basketTabs}>
             <View style={TabsStyles.badge}>
               <Text>{count}</Text>
             </View>
             <Image style={TabsStyles.basketIcon} source={icons.basket} />
           </TouchableOpacity>}
-          <TouchableOpacity>
-            <Image style={styles.personTabs} source={icons.person} />
+          <TouchableOpacity onPress={() => navigate('Orderhistorik')}>
+            <Image style={styles.personTabs} source={icons.shoppingbag} />
           </TouchableOpacity>
         </View>
       );
@@ -172,46 +174,17 @@ class Undermenu extends Component {
 
     function renderHeader() {
       return (
-        <View style={{ flexDirection: 'row', height: 50, position: 'absolute', zIndex: 99, paddingTop: '16%' }}>
-          <TouchableOpacity
-            style={{
-              width: 50,
-              paddingLeft: SIZES.padding * 2,
-              justifyContent: 'center'
-            }}
-            onPress={() => navigate("RestaurantMenu")}
-          >
-            <Image
-              source={icons.back}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25
-              }}
-            />
-
-          </TouchableOpacity>
-          <TouchableOpacity style={{ width: 50, paddingLeft: '78%', justifyContent: 'center' }}
-            onPress={() => this.onSearch()}
-          >
-            <Image
-              source={icons.search}
-              resizeMode="contain"
-              style={{ width: 20, height: 20 }}
-            />
-          </TouchableOpacity>
+        <View style={styles.ContanierHeader}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigate('Restaurant')}>
+              <Image source={icons.back} style={styles.hambugerMenu} />
+            </TouchableOpacity>
+            <Text style={styles.headline}>{restaurantData.name}</Text>
+          </View>
         </View>
       )
     }
-   function renderFilterScreen() {
-      return(
-         <View>
-            <TouchableOpacity>
-                 <Text>Inside Filter screen</Text>
-            </TouchableOpacity>
-          </View>
-      )
-      }
+
    // [{ "title": "Chil","title": "ost" }]
     const renderModal = () => {
       const ingredients = foodSelected.ingredients ? JSON.parse(foodSelected.ingredients) : [];

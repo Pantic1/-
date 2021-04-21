@@ -14,6 +14,8 @@ import Cart from './src/components/layouts/Cart';
 import Order from './src/components/layouts/Order';
 import LoginScreen from './src/components/layouts/login/login';
 import EmailLogin from './src/components/layouts/EmailLogin';
+import PastOrder from './src/components/layouts/PastOrder';
+import Orderhistorik from './src/components/layouts/Orderhistorik';
 import OrdersList from './src/components/layouts/OrdersList';
 import LocationSelect from './src/components/layouts/location/LocationSelect';
 import StripeCheckout from './src/components/layouts/Checkout';
@@ -47,6 +49,8 @@ const App = () => {
               <Stack.Screen name="LocationSelect" component={LocationSelect}/>
               <Stack.Screen name="LoginScreen" component={LoginScreen}/>
               <Stack.Screen name="EmailLogin" component={EmailLogin}/>
+              <Stack.Screen name="PastOrder" component={PastOrder}/>
+              <Stack.Screen name="Orderhistorik" component={Orderhistorik}/>
               <Stack.Screen name="OrdersList" component={OrdersList}/>
             </Stack.Navigator>
 
