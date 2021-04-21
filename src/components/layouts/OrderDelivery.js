@@ -14,6 +14,7 @@ import Geocoder from 'react-native-geocoding';
 import config from '../../aws-exports';
 import Amplify, { DataStore } from "aws-amplify";
 import { Order, Restaurant } from '../../models'
+import styles from './styles/OrderDelivery.component.style';
 
 Amplify.configure(config);
 Geocoder.init(GOOGLE_API_KEY); // use a valid API key
@@ -32,14 +33,34 @@ const OrderDelivery = ({ route, navigation }) => {
   const [isReady, setIsReady] = React.useState(false)
   const [angle, setAngle] = React.useState(0)
   const [acceptBtn, setAcceptBtn] = React.useState(false)
+  const [Status, setStatus] = React.useState(false)
+  const [StatusArray, setStatusArray] = React.useState(['Venter bekræftelse .........'])
   const [phoneNumber, setPhoneNumber] = React.useState(false)
 
   React.useEffect(() => {
+    fecthRestaurant()
     fecthOrder()
+  }, [])
+
+  React.useEffect(() => {
+    let { item } = route.params;
+    const subscription = DataStore.observe(Order, item.id).subscribe(() => {
+      fecthOrder();
+    })
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   async function fecthOrder() {
     let { item } = route.params;
+    const order = await DataStore.query(Order, c => c.id("eq", item.id));
+    setStatus(order[0].status)
+  }
+
+  async function fecthRestaurant() {
+    let { item } = route.params;
+
     const restaurants = await DataStore.query(Restaurant, c => c.id("eq", item.restaurantID));
     setPhoneNumber(restaurants[0].phone)
     // henter adressen her fra og laver den om til cordinater
@@ -96,7 +117,7 @@ const OrderDelivery = ({ route, navigation }) => {
   }
 
   async function Call() {
-     Linking.openURL(`tel:`+ phoneNumber)
+    Linking.openURL(`tel:` + phoneNumber)
   }
 
   function calculateAngle(coordinates) {
@@ -296,7 +317,7 @@ const OrderDelivery = ({ route, navigation }) => {
   }
 
   function renderDeliveryInfo() {
-    let { derliveryTime } = route.params;
+    let { derliveryTime, item } = route.params;
     return (
       <View
         style={{
@@ -322,12 +343,18 @@ const OrderDelivery = ({ route, navigation }) => {
             <View style={{ flex: 1, marginLeft: SIZES.padding }}>
               {/* Name & Rating */}
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ ...FONTS.h3 }}>{streetName}</Text>
+                <Text style={{ ...FONTS.h3 }}>{item.restaurantName}</Text>
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={{ ...FONTS.h3, marginRight: '7%' }}>{derliveryTime}</Text>
                 </View>
               </View>
+              {/* makes status of the order */}
+              <View>
+                <Text style={styles.status}>Status</Text>
+                <View style={styles.hr} />
 
+                {renderStatus()}
+              </View>
               {/* Restaurant */}
               <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>{restaurant?.name}</Text>
             </View>
@@ -366,6 +393,31 @@ const OrderDelivery = ({ route, navigation }) => {
         </View>
       </View>
     )
+  }
+
+  function renderStatus() {
+      function add(text){
+          if (!StatusArray.includes(text)){
+            StatusArray.push(text)
+          }
+      }
+    if (Status == 'Accepted') {
+      add('Order igang')
+    } else if (Status == 'Cancelled') {
+      add('Order er annulleret')
+    } else if (Status == 'Delivering') {
+      add('Order er på vej')
+    } else if (Status == 'Delivered') {
+      add('Order er leveret')
+    } 
+    return (
+      <View>
+        {StatusArray.map((status, index) => (
+          <Text key={index}>{status}</Text>
+        ))}
+      </View>
+    )
+
   }
 
   function renderCallBtn() {

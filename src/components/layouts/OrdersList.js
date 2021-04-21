@@ -45,7 +45,6 @@ class OrdersList extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const OrderData = [this.props.route.params.order]
-
     function renderHeader() {
       return (
         <View style={styles.Contanier}>
